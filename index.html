@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Simulador iPhone SE de Colores</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #1e1e24;
+      color: white;
+      padding: 20px;
+    }
+    h1 { font-size: 22px; margin-bottom: 5px; color: #00d2ff; }
+    p.sub { font-size: 14px; margin-bottom: 25px; color: #aaa; }
+    
+    /* Cuerpo del iPhone SE */
+    .iphone {
+      width: 280px;
+      height: 560px;
+      border-radius: 45px;
+      padding: 45px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0px 15px 35px rgba(0,0,0,0.6);
+      transition: all 0.4s ease;
+      border: 3px solid rgba(255,255,255,0.1);
+    }
+    
+    /* Estilos de colores oficiales */
+    .color-midnight { background-color: #11161e; }
+    .color-starlight { background-color: #f7f4eb; border-color: #d1cbd4; }
+    .color-red       { background-color: #a50f15; }
+
+    /* Pantalla del teléfono */
+    .pantalla {
+      width: 100%;
+      height: 420px;
+      background-color: #000;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #222;
+      overflow: hidden;
+      position: relative;
+    }
+    .contenido-pantalla {
+      text-align: center;
+      padding: 20px;
+    }
+    .hora { font-size: 38px; font-weight: 300; margin-bottom: 5px; }
+    .fecha { font-size: 14px; color: #00d2ff; margin-bottom: 20px; }
+    .estado { font-size: 16px; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; }
+
+    /* Botón Home clásico con aro circular */
+    .btn-home {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.25);
+      cursor: pointer;
+      background: rgba(0,0,0,0.4);
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+      transition: transform 0.1s ease;
+    }
+    .btn-home:active { transform: scale(0.92); }
+    
+    /* Cambiar el aro del botón según el color del celular */
+    .color-starlight .btn-home { border-color: #b5afb7; }
+    .color-red .btn-home { border-color: #ea3c3c; }
+
+    /* Controladores de arriba */
+    .controles { margin-bottom: 25px; display: flex; gap: 10px; }
+    .btn-color {
+      border: none; padding: 10px 15px; font-weight: bold;
+      border-radius: 12px; cursor: pointer; transition: 0.2s;
+    }
+    .btn-color:hover { transform: translateY(-3px); }
+    .btn-mid { background-color: #11161e; color: white; border: 1px solid #333; }
+    .btn-star { background-color: #f7f4eb; color: #333; }
+    .btn-r { background-color: #a50f15; color: white; }
+  </style>
+</head>
+<body>
+
+  <h1>El iPhone SE de Adrián</h1>
+  <p class="sub">¡Elige un color para cambiar la carcasa!</p>
+
+  <!-- Botones de colores -->
+  <div class="controles">
+    <button class="btn-color btn-mid" onclick="cambiarColor('midnight')">Midnight 🌌</button>
+    <button class="btn-color btn-star" onclick="cambiarColor('starlight')">Starlight ⭐</button>
+    <button class="btn-color btn-r" onclick="cambiarColor('red')">Product(RED) 🔴</button>
+  </div>
+
+  <!-- El iPhone Virtual -->
+  <div id="telefono" class="iphone color-midnight">
+    
+    <!-- Pantalla -->
+    <div class="pantalla">
+      <div class="contenido-pantalla">
+        <div class="hora" id="reloj">12:00</div>
+        <div class="fecha">Martes, 3 de nov.</div>
+        <div class="estado" id="status-txt">¡Bienvenido!</div>
+      </div>
+    </div>
+    
+    <!-- Botón Home Touch ID -->
+    <div class="btn-home" onclick="presionarHome()"></div>
+    
+  </div>
+
+  <script>
+    // Cambiar color de la carcasa externa
+    function cambiarColor(color) {
+      document.getElementById('telefono').className = 'iphone color-' + color;
+    }
+
+    // Al pulsar el botón Home redondo
+    function presionarHome() {
+      const txt = document.getElementById('status-txt');
+      txt.innerText = "¡Botón Home Pulsado!📱";
+      txt.style.color = "#00d2ff";
+      
+      setTimeout(() => {
+        txt.innerText = "¡Bienvenido!";
+        txt.style.color = "white";
+      }, 2000);
+    }
+
+    // Pone la hora real de tu Chromebook en la pantalla del iPhone
+    function actualizarReloj() {
+      const ahora = new Date();
+      let horas = ahora.getHours();
+      let minutos = ahora.getMinutes();
+      if (minutos < 10) minutos = '0' + minutos;
+      document.getElementById('reloj').innerText = horas + ':' + minutos;
+    }
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
+  </script>
+</body>
+</html>
